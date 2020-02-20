@@ -1,0 +1,7 @@
+## TODO
+- [x] Add ability to open digit by serial number
+- [X] Get info should display firwmare version from digit
+- [X] Add function to enable DFU mode (-1 intensity setting)
+- [ ] Set LED intensity to accept a vector [R, G, B] for LED control
+- [x] Create setup.py
+- [x] Create requirements.txt
