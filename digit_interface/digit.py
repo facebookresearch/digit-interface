@@ -2,6 +2,7 @@
 
 # This source code is licensed under the license found in the LICENSE file in the root directory of this source tree.
 
+import logging
 import typing
 
 import cv2
@@ -9,6 +10,7 @@ import numpy as np
 
 from digit_interface.digit_handler import DigitHandler
 
+logger = logging.getLogger(__name__)
 
 class Digit:
     def __init__(self, serial: str = None, name: str = None) -> None:
@@ -32,15 +34,22 @@ class Digit:
         self.intensity: int = 0
 
         if self.serial is not None:
+            logger.debug(f"Digit object constructed with serial {self.serial}")
             self.populate(serial)
 
     def connect(self) -> None:
+        logger.info(f"{self.serial}:Connecting to DIGIT")
         self.__dev = cv2.VideoCapture(self.dev_name)
         if not self.__dev.isOpened():
+            logger.error(f"Cannot open video capture device {self.serial} - {self.dev_name}")
             raise Exception(f"Error opening video stream: {self.dev_name}")
         # set stream defaults, QVGA at 60 fps
+        logger.info(f"{self.serial}:Setting stream defaults to QVGA, 60fps, maximum LED intensity.")
+        logger.debug(f"Default stream to QVGA {DigitHandler.STREAMS['QVGA']['resolution']}")
         self.set_resolution(DigitHandler.STREAMS["QVGA"])
-        self.set_fps(DigitHandler.STREAMS["QVGA"]["fps"]["60fps"])
+        logger.debug(f"Default stream with {DigitHandler.STREAMS['QVGA']['fps']['60fps']} fps")
+        self.set_fps(DigitHandler.STREAMS['QVGA']['fps']['60fps'])
+        logger.debug("Setting maximum LED illumination intensity")
         self.set_intensity(255)
 
     def set_resolution(self, resolution: typing.Dict) -> None:
@@ -52,6 +61,7 @@ class Digit:
         self.resolution = resolution["resolution"]
         width = self.resolution["width"]
         height = self.resolution["height"]
+        logger.debug(f"{self.serial}:Stream resolution set to {height}w x {width}h")
         self.__dev.set(cv2.CAP_PROP_FRAME_WIDTH, width)
         self.__dev.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
 
@@ -64,11 +74,13 @@ class Digit:
         :return: None
         """
         self.fps = fps
+        logger.debug(f"{self.serial}:Stream FPS set to {self.fps}")
         self.__dev.set(cv2.CAP_PROP_FPS, self.fps)
 
     def set_intensity(self, intensity: int) -> int:
         intensity = 1 if intensity < 1 else 255 if intensity > 255 else intensity
         self.intensity = intensity
+        logger.debug(f"{self.serial}:LED intensity set to {self.intensity}")
         self.__dev.set(cv2.CAP_PROP_ZOOM, self.intensity)
         return self.intensity
 
@@ -80,7 +92,8 @@ class Digit:
         """
         ret, frame = self.__dev.read()
         if not ret:
-            raise Exception(f"Unable to grab frame from {self.dev_name}!")
+            logger.error(f"Cannot retrieve frame data from {self.serial}, is DIGIT device open?")
+            raise Exception(f"Unable to grab frame from {self.serial} - {self.dev_name}!")
         if not transpose:
             frame = cv2.transpose(frame, frame)
             frame = cv2.flip(frame, 0)
@@ -93,6 +106,7 @@ class Digit:
         :return: None
         """
         frame = self.get_frame()
+        logger.debug(f"Saving frame to {path}")
         cv2.imwrite(path, frame)
 
     def get_diff(self, ref_frame: np.ndarray) -> np.ndarray:
@@ -120,6 +134,7 @@ class Digit:
         cv2.destroyAllWindows()
 
     def disconnect(self) -> None:
+        logger.debug(f"{self.serial}:Closing DIGIT device")
         self.__dev.release()
 
     def info(self) -> str:

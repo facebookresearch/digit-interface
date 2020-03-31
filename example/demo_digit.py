@@ -2,6 +2,7 @@
 
 # This source code is licensed under the license found in the LICENSE file in the root directory of this source tree.
 
+import logging
 import pprint
 import time
 
@@ -10,16 +11,12 @@ import cv2
 from digit_interface.digit import Digit
 from digit_interface.digit_handler import DigitHandler
 
+logging.basicConfig(level=logging.DEBUG)
+
 # Print a list of connected DIGIT's
 digits = DigitHandler.list_digits()
 print("Connected DIGIT's to Host:")
 pprint.pprint(digits)
-
-# Find a Digit by serial number and connect manually
-digit = DigitHandler.find_digit("D12345")
-pprint.pprint(digit)
-cap = cv2.VideoCapture(digit['dev_name'])
-cap.release()
 
 # Connect to a Digit device with serial number with friendly name
 digit = Digit("D12345", "Left Gripper")
@@ -50,3 +47,9 @@ digit.show_view()
 
 # Disconnect DIGIT stream
 digit.disconnect()
+
+# Find a Digit by serial number and connect manually
+digit = DigitHandler.find_digit("D12345")
+pprint.pprint(digit)
+cap = cv2.VideoCapture(digit['dev_name'])
+cap.release()

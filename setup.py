@@ -33,7 +33,7 @@ def find_version(*file_paths):
 setup(name='digit_interface',
       version=find_version("digit_interface/__init__.py"),
       description='Interface for the DIGIT tactile sensor.',
-      url='https://github.com/fairinternal/digit-interface',
+      url='https://github.com/facebookresearch/digit-interface',
       author='Mike Lambeta, Roberto Calandra',
       author_email='lambetam@fb.com, rcalandra@fb.com',
       keywords=['science'],
