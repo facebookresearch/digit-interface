@@ -1,6 +1,8 @@
 # DIGIT-INTERFACE
 
-Python interface for the DIGIT tactile sensor.
+[![License: CC BY-NC 4.0](https://img.shields.io/badge/License-CC%20BY--NC%204.0-lightgrey.svg)](LICENSE)
+
+Python interface for the [DIGIT tactile sensor](https://digit.ml).
 
 ## Installation
 Clone the repository and install the package using:
@@ -85,5 +87,6 @@ Reload rules,
     sudo udevadm trigger
     
 Replug the DIGIT device into host.
+
 ## License
 This code is licensed under CC-by-NC, as found in the LICENSE file.
