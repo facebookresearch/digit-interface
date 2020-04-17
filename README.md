@@ -1,6 +1,9 @@
 # DIGIT-INTERFACE
 
 [![License: CC BY-NC 4.0](https://img.shields.io/badge/License-CC%20BY--NC%204.0-lightgrey.svg)](LICENSE)
+<a href="https://digit.ml/">
+<img height="20" src="/docs/digit-logo.svg" alt="DIGIT-logo" />
+</a>
 
 Python interface for the [DIGIT tactile sensor](https://digit.ml).
 
@@ -14,6 +17,7 @@ Clone the repository and install the package using:
 
 
 If you cannot access the device by serial number on your system follow [adding DIGIT udev Rule](#adding-digit-udev-rule)
+
 ## Usage
 The default connection method to the DIGIT tactile sensor is through the unique device serial number. The serial number
 is found on the back of each DIGIT.
@@ -90,3 +94,16 @@ Replug the DIGIT device into host.
 
 ## License
 This code is licensed under CC-by-NC, as found in the LICENSE file.
+
+## Citing
+If you like our work, please consider citing us:
+
+```BibTeX
+@Article{Lambeta2020DIGIT,
+  author  = {Lambeta, Mike and Chou, Po-Wei and Tian, Stephen and Yang, Brian and Maloon, Benjamin and Victoria Rose Most and Stroud, Dave and Santos, Raymond and Byagowi, Ahmad and Kammerer, Gregg and Jayaraman, Dinesh and Calandra, Roberto},
+  title   = {{DIGIT}: A Novel Design for a Low-Cost Compact High-Resolution Tactile Sensor with Application to In-Hand Manipulation},
+  journal = {IEEE Robotics and Automation Letters (RA-L)},
+  year    = {2020},
+  doi     = {10.1109/LRA.2020.2977257},
+}
+```
