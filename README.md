@@ -10,7 +10,7 @@ Python interface for the [DIGIT tactile sensor](https://digit.ml).
 ## Installation
 Clone the repository and install the package using:
 
-	git clone https://github.com/fairinternal/digit-interface.git 
+	git clone https://github.com/facebookresearch/digit-interface.git 
 	cd digit-interface
 	pip install -r requirements.txt
 	python setup.py install
@@ -93,10 +93,10 @@ Reload rules,
 Replug the DIGIT device into host.
 
 ## License
-This code is licensed under CC-by-NC, as found in the LICENSE file.
+This code is licensed under CC-by-NC, as found in the [LICENSE](LICENSE) file.
 
 ## Citing
-If you like our work, please consider citing us:
+If you like this project, please consider citing us:
 
 ```BibTeX
 @Article{Lambeta2020DIGIT,
