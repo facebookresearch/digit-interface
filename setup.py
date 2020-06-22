@@ -30,6 +30,9 @@ def find_version(*file_paths):
     raise RuntimeError("Unable to find version string.")
 
 
+with open("README.md", "r") as fh:
+    long_description = fh.read()
+
 setup(name='digit_interface',
       version=find_version("digit_interface/__init__.py"),
       description='Interface for the DIGIT tactile sensor.',
@@ -37,7 +40,8 @@ setup(name='digit_interface',
       author='Mike Lambeta, Roberto Calandra',
       author_email='lambetam@fb.com, rcalandra@fb.com',
       keywords=['science'],
-      long_description=read('README.md'),
+      long_description=long_description,
+      long_description_content_type="text/markdown",
       license='LICENSE',
       packages=find_packages(),
       install_requires=install_requires,
@@ -47,4 +51,5 @@ setup(name='digit_interface',
           'Programming Language :: Python :: 3',
           "Operating System :: POSIX :: Linux",
       ],
+      python_requires='>=3.6',
       )

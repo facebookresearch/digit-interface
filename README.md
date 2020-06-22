@@ -1,6 +1,7 @@
 # DIGIT-INTERFACE
 
 [![License: CC BY-NC 4.0](https://img.shields.io/badge/License-CC%20BY--NC%204.0-lightgrey.svg)](LICENSE)
+![PyPI](https://img.shields.io/pypi/v/digit-interface)
 <a href="https://digit.ml/">
 <img height="20" src="/docs/digit-logo.svg" alt="DIGIT-logo" />
 </a>
@@ -8,13 +9,21 @@
 Python interface for the [DIGIT tactile sensor](https://digit.ml).
 
 ## Installation
-Clone the repository and install the package using:
 
-	git clone https://github.com/facebookresearch/digit-interface.git 
-	cd digit-interface
-	pip install -r requirements.txt
-	python setup.py install
+The preferred way of installation is through PyPi:
 
+```bash
+pip install digit-interface
+```
+
+Alternatively, you can manually clone the repository and install the package using:
+
+```bash
+git clone https://github.com/facebookresearch/digit-interface.git 
+cd digit-interface
+pip install -r requirements.txt
+python setup.py install
+```
 
 If you cannot access the device by serial number on your system follow [adding DIGIT udev Rule](#adding-digit-udev-rule)
 
@@ -79,24 +88,30 @@ d.set_fps(DigitHandler.STREAMS["QVGA"]["fps"]["15fps"])
 ### Adding DIGIT udev Rule
 Add your user to the ```plugdev``` group,
 
-    adduser username plugdev
+```
+adduser username plugdev
+```
 
 Copy udev rule,
 
-    sudo cp ./udev/50-DIGIT.rules /lib/udev/rules.d/
+```
+sudo cp ./udev/50-DIGIT.rules /lib/udev/rules.d/
+```
 
 Reload rules,
 
-    sudo udevadm control --reload
-    sudo udevadm trigger
-    
+```
+sudo udevadm control --reload
+sudo udevadm trigger
+```
+ 
 Replug the DIGIT device into host.
 
 ## License
 This code is licensed under CC-by-NC, as found in the [LICENSE](LICENSE) file.
 
 ## Citing
-If you like this project, please consider citing us:
+If you use this project in your research, please cite:
 
 ```BibTeX
 @Article{Lambeta2020DIGIT,
