@@ -12,6 +12,7 @@ from digit_interface.digit_handler import DigitHandler
 
 logger = logging.getLogger(__name__)
 
+
 class Digit:
     def __init__(self, serial: str = None, name: str = None) -> None:
         """
@@ -41,14 +42,22 @@ class Digit:
         logger.info(f"{self.serial}:Connecting to DIGIT")
         self.__dev = cv2.VideoCapture(self.dev_name)
         if not self.__dev.isOpened():
-            logger.error(f"Cannot open video capture device {self.serial} - {self.dev_name}")
+            logger.error(
+                f"Cannot open video capture device {self.serial} - {self.dev_name}"
+            )
             raise Exception(f"Error opening video stream: {self.dev_name}")
         # set stream defaults, QVGA at 60 fps
-        logger.info(f"{self.serial}:Setting stream defaults to QVGA, 60fps, maximum LED intensity.")
-        logger.debug(f"Default stream to QVGA {DigitHandler.STREAMS['QVGA']['resolution']}")
+        logger.info(
+            f"{self.serial}:Setting stream defaults to QVGA, 60fps, maximum LED intensity."
+        )
+        logger.debug(
+            f"Default stream to QVGA {DigitHandler.STREAMS['QVGA']['resolution']}"
+        )
         self.set_resolution(DigitHandler.STREAMS["QVGA"])
-        logger.debug(f"Default stream with {DigitHandler.STREAMS['QVGA']['fps']['60fps']} fps")
-        self.set_fps(DigitHandler.STREAMS['QVGA']['fps']['60fps'])
+        logger.debug(
+            f"Default stream with {DigitHandler.STREAMS['QVGA']['fps']['60fps']} fps"
+        )
+        self.set_fps(DigitHandler.STREAMS["QVGA"]["fps"]["60fps"])
         logger.debug("Setting maximum LED illumination intensity")
         self.set_intensity(255)
 
@@ -92,14 +101,18 @@ class Digit:
         """
         ret, frame = self.__dev.read()
         if not ret:
-            logger.error(f"Cannot retrieve frame data from {self.serial}, is DIGIT device open?")
-            raise Exception(f"Unable to grab frame from {self.serial} - {self.dev_name}!")
+            logger.error(
+                f"Cannot retrieve frame data from {self.serial}, is DIGIT device open?"
+            )
+            raise Exception(
+                f"Unable to grab frame from {self.serial} - {self.dev_name}!"
+            )
         if not transpose:
             frame = cv2.transpose(frame, frame)
             frame = cv2.flip(frame, 0)
         return frame
 
-    def save_frame(self, path: str) -> None:
+    def save_frame(self, path: str) -> np.ndarray:
         """
         Saves a single image frame to host
         :param path: Path and file name where the frame shall be saved to
@@ -108,6 +121,7 @@ class Digit:
         frame = self.get_frame()
         logger.debug(f"Saving frame to {path}")
         cv2.imwrite(path, frame)
+        return frame
 
     def get_diff(self, ref_frame: np.ndarray) -> np.ndarray:
         """
@@ -146,15 +160,17 @@ class Digit:
         is_connected = False
         if has_dev:
             is_connected = self.__dev.isOpened()
-        info_string = (f"Name: {self.name} {self.dev_name}"
-                       f"\n\t- Model: {self.model}"
-                       f"\n\t- Revision: {self.revision}"
-                       f"\n\t- CV Device?: {has_dev}"
-                       f"\n\t- Connected?: {is_connected}"
-                       f"\nStream Info:"
-                       f"\n\t- Resolution: {self.resolution['width']} x {self.resolution['height']}"
-                       f"\n\t- FPS: {self.fps}"
-                       f"\n\t- LED Intensity: {self.intensity}")
+        info_string = (
+            f"Name: {self.name} {self.dev_name}"
+            f"\n\t- Model: {self.model}"
+            f"\n\t- Revision: {self.revision}"
+            f"\n\t- CV Device?: {has_dev}"
+            f"\n\t- Connected?: {is_connected}"
+            f"\nStream Info:"
+            f"\n\t- Resolution: {self.resolution['width']} x {self.resolution['height']}"
+            f"\n\t- FPS: {self.fps}"
+            f"\n\t- LED Intensity: {self.intensity}"
+        )
         return info_string
 
     def populate(self, serial: str) -> None:
@@ -166,8 +182,8 @@ class Digit:
         digit = DigitHandler.find_digit(serial)
         if digit is None:
             raise Exception(f"Cannot find DIGIT with serial {self.serial}")
-        self.dev_name = digit['dev_name']
-        self.manufacturer = digit['manufacturer']
-        self.model = digit['model']
-        self.revision = digit['revision']
-        self.serial = digit['serial']
+        self.dev_name = digit["dev_name"]
+        self.manufacturer = digit["manufacturer"]
+        self.model = digit["model"]
+        self.revision = digit["revision"]
+        self.serial = digit["serial"]

@@ -1,3 +1,8 @@
+black
+flake8
+flake8-copyright
+isort
+nox>=2019.11.9
 numpy >= 1.16
 opencv-python
 pyudev

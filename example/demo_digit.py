@@ -51,5 +51,5 @@ digit.disconnect()
 # Find a Digit by serial number and connect manually
 digit = DigitHandler.find_digit("D12345")
 pprint.pprint(digit)
-cap = cv2.VideoCapture(digit['dev_name'])
+cap = cv2.VideoCapture(digit["dev_name"])
 cap.release()

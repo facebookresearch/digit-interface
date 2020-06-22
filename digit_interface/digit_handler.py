@@ -9,12 +9,13 @@ import pyudev
 
 logger = logging.getLogger(__name__)
 
+
 class DigitHandler:
     STREAMS = {
         # VGA resolution support 30 (default) and 15 fps
         "VGA": {
             "resolution": {"width": 640, "height": 480},
-            "fps": {"30fps": 30, "15fps": 15}
+            "fps": {"30fps": 30, "15fps": 15},
         },
         # QVGA resolution support 60 (default) and 30 fps
         "QVGA": {
@@ -25,9 +26,13 @@ class DigitHandler:
 
     @staticmethod
     def _parse(digit_dev: Dict[str, str]) -> Dict[str, str]:
-        digit_info = {'dev_name': digit_dev['DEVNAME'], 'manufacturer': digit_dev['ID_VENDOR'],
-                      'model': digit_dev['ID_MODEL'], 'revision': digit_dev['ID_REVISION'],
-                      'serial': digit_dev['ID_SERIAL_SHORT']}
+        digit_info = {
+            "dev_name": digit_dev["DEVNAME"],
+            "manufacturer": digit_dev["ID_VENDOR"],
+            "model": digit_dev["ID_MODEL"],
+            "revision": digit_dev["ID_REVISION"],
+            "serial": digit_dev["ID_SERIAL_SHORT"],
+        }
         return digit_info
 
     @staticmethod
@@ -48,7 +53,7 @@ class DigitHandler:
         digits = DigitHandler.list_digits()
         logger.debug(f"Searching for DIGIT with serial number {serial}")
         for digit in digits:
-            if digit['serial'] == serial:
+            if digit["serial"] == serial:
                 return digit
         logger.error(f"No DIGIT with serial number {serial} found")
         return None
