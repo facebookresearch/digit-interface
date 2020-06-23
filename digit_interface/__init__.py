@@ -7,6 +7,6 @@ from .digit_handler import DigitHandler
 
 __author__ = "Mike Lambeta, Roberto Calandra"
 __contact__ = "lambetam@fb.com, rcalandra@fb.com"
-__version__ = "0.1.2"  # Source of truth for digit_interfaces's version
+__version__ = "0.1.3"  # Source of truth for digit_interfaces's version
 
 __all__ = ["__version__", "Digit"]
