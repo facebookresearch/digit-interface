@@ -1,7 +1,7 @@
 # DIGIT-INTERFACE
 
 [![License: CC BY-NC 4.0](https://img.shields.io/badge/License-CC%20BY--NC%204.0-lightgrey.svg)](LICENSE)
-![PyPI](https://img.shields.io/pypi/v/digit-interface)
+[![PyPI](https://img.shields.io/pypi/v/digit-interface)](https://pypi.org/project/digit-interface/)
 <a href="https://digit.ml/">
 <img height="20" src="/docs/digit-logo.svg" alt="DIGIT-logo" />
 </a>
