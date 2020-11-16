@@ -8,6 +8,8 @@
 
 Python interface for the [DIGIT tactile sensor](https://digit.ml).
 
+**For updates and discussions please join the #DIGIT channel at the [www.touch-sensing.org](https://www.touch-sensing.org/) community.**
+
 ## Installation
 
 The preferred way of installation is through PyPi:
@@ -111,7 +113,7 @@ Replug the DIGIT device into host.
 This code is licensed under CC-by-NC, as found in the [LICENSE](LICENSE) file.
 
 ## Citing
-If you use this project in your research, please cite:
+If you use this project in your research, please cite this [paper](https://arxiv.org/abs/2005.14679):
 
 ```BibTeX
 @Article{Lambeta2020DIGIT,
