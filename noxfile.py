@@ -40,9 +40,14 @@ def install_pytouch(session):
 @nox.session(python=DEFAULT_PYTHON_VERSIONS)
 def lint(session):
     install_lint_deps(session)
-    session.run("black", "--check", ".", silent=SILENT)
+    session.run("black", "--diff", "--check", ".", silent=SILENT)
     session.run(
-        "isort", "--check", "--diff", ".", "--skip=.nox", silent=SILENT,
+        "isort",
+        "--check",
+        "--diff",
+        ".",
+        "--skip=.nox",
+        silent=SILENT,
     )
     session.run("flake8", "--config", ".flake8")
 

@@ -28,7 +28,7 @@ print(digit.info())
 # Change LED illumination intensity
 digit.set_intensity(0)
 time.sleep(1)
-digit.set_intensity(255)
+digit.set_intensity(15)
 
 # Change DIGIT resolution to QVGA
 qvga_res = DigitHandler.STREAMS["QVGA"]

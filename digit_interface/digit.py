@@ -28,7 +28,7 @@ class Digit:
         self.dev_name: str = ""
         self.manufacturer: str = ""
         self.model: str = ""
-        self.revision: str = ""
+        self.revision: int = ""
 
         self.resolution: typing.Dict = {}
         self.fps: int = 0
@@ -59,7 +59,7 @@ class Digit:
         )
         self.set_fps(DigitHandler.STREAMS["QVGA"]["fps"]["60fps"])
         logger.debug("Setting maximum LED illumination intensity")
-        self.set_intensity(255)
+        self.set_intensity(15)
 
     def set_resolution(self, resolution: typing.Dict) -> None:
         """
@@ -87,9 +87,42 @@ class Digit:
         self.__dev.set(cv2.CAP_PROP_FPS, self.fps)
 
     def set_intensity(self, intensity: int) -> int:
-        intensity = 1 if intensity < 1 else 255 if intensity > 255 else intensity
+        """
+        Sets all LEDs to specific intensity, this is a global control.
+        :param intensity: Value between 0 and 15 where 0 is all LEDs off and 15 all
+        LEDS full intensity
+        :return: Returns the set intensity
+        """
+        if self.revision < 200:
+            # Deprecated version 1.01 (1b) is not supported
+            intensity = int(intensity / 17)
+            logger.warn(
+                "You are using a previous version of the firmware "
+                "which does not support independent RGB control, update your DIGIT firmware."
+            )
+        self.intensity = self.set_intensity_rgb(intensity, intensity, intensity)
+        return self.intensity
+
+    def set_intensity_rgb(
+        self, intensity_r: int, intensity_g: int, intensity_b: int
+    ) -> int:
+        """
+        Sets LEDs to specific intensity, per LED control
+        Perimitted values are between 0 (off/dim) and 15 (full brightness)
+        :param intensity_r: Red value
+        :param intensity_g: Green value
+        :param intensity_b: Blue value
+        :return: Returns the set intensity
+        """
+        if not all(
+            [x in range(0, 16) for x in (intensity_r, intensity_g, intensity_b)]
+        ):
+            raise ValueError("RGB values must be between 0 and 15.")
+        intensity = (intensity_r << 8) | (intensity_g << 4) | intensity_b
+        logger.debug(
+            f"{self.serial}:LED intensity set to {intensity} (R: {intensity_r} G: {intensity_g} B: {intensity_b}"
+        )
         self.intensity = intensity
-        logger.debug(f"{self.serial}:LED intensity set to {self.intensity}")
         self.__dev.set(cv2.CAP_PROP_ZOOM, self.intensity)
         return self.intensity
 
@@ -185,5 +218,5 @@ class Digit:
         self.dev_name = digit["dev_name"]
         self.manufacturer = digit["manufacturer"]
         self.model = digit["model"]
-        self.revision = digit["revision"]
+        self.revision = int(digit["revision"])
         self.serial = digit["serial"]
