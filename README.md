@@ -37,7 +37,7 @@ host.
 
 Once you have the device serial number, reading data from the sensor should be as easy as
 ```python
-from digit_interface.digit import Digit
+from digit_interface import Digit
  
 d = Digit("D12345") # Unique serial number
 d.connect()
@@ -51,14 +51,14 @@ Upon connection each DIGIT device initializes with a default stream resolution o
 ##### List all connected DIGIT's:
 To list all connected DIGIT's and display sensor information:
 ```python
-from digit_interface.digit_handler import DigitHandler
+from digit_interface import DigitHandler
 
 digits = DigitHandler.list_digits()
 ```
 
 ##### Obtain a single frame:
 ```python
-from digit_interface.digit import Digit
+from digit_interface import Digit
 
 d = Digit("D12345") # Unique serial number
 d.connect()
