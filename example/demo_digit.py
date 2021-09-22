@@ -26,16 +26,16 @@ digit.connect()
 print(digit.info())
 
 # Change LED illumination intensity
-digit.set_intensity(0)
+digit.set_intensity(Digit.LIGHTING_MIN)
 time.sleep(1)
-digit.set_intensity(15)
+digit.set_intensity(Digit.LIGHTING_MAX)
 
 # Change DIGIT resolution to QVGA
-qvga_res = DigitHandler.STREAMS["QVGA"]
+qvga_res = Digit.STREAMS["QVGA"]
 digit.set_resolution(qvga_res)
 
 # Change DIGIT FPS to 15fps
-fps_30 = DigitHandler.STREAMS["QVGA"]["fps"]["30fps"]
+fps_30 = Digit.STREAMS["QVGA"]["fps"]["30fps"]
 digit.set_fps(fps_30)
 
 # Grab single frame from DIGIT

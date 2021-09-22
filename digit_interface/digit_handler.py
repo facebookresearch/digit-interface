@@ -11,19 +11,6 @@ logger = logging.getLogger(__name__)
 
 
 class DigitHandler:
-    STREAMS = {
-        # VGA resolution support 30 (default) and 15 fps
-        "VGA": {
-            "resolution": {"width": 640, "height": 480},
-            "fps": {"30fps": 30, "15fps": 15},
-        },
-        # QVGA resolution support 60 (default) and 30 fps
-        "QVGA": {
-            "resolution": {"width": 320, "height": 240},
-            "fps": {"60fps": 60, "30fps": 30},
-        },
-    }
-
     @staticmethod
     def _parse(digit_dev: Dict[str, str]) -> Dict[str, str]:
         digit_info = {

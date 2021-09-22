@@ -70,21 +70,21 @@ Additional streams are supported, these streams vary in resolution and frames pe
 
 To list the available stream formats:
 ```python
-from digit_interface.digit_handler import DigitHandler
+from digit_interface import Digit
 
-print("Supported streams: \n {}".format(DigitHandler.STREAMS))
+print("Supported streams: \n {}".format(Digit.STREAMS))
 ```
 
 ##### Change resolution:
 ```
-d.set_resolution(DigitHandler.STREAMS["QVGA"])
+d.set_resolution(Digit.STREAMS["QVGA"])
 ```
 
 ##### Change FPS, 
 Based on supported fps for each respective resolution. All streams support pre-defined resolutions which can 
-be found in ```DigitHandler.STREAMS```
+be found in ```Digit.STREAMS```
 ```
-d.set_fps(DigitHandler.STREAMS["QVGA"]["fps"]["15fps"])
+d.set_fps(Digit.STREAMS["QVGA"]["fps"]["15fps"])
 ```
 
 ### Adding DIGIT udev Rule

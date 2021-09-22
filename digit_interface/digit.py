@@ -13,7 +13,26 @@ from digit_interface.digit_handler import DigitHandler
 logger = logging.getLogger(__name__)
 
 
-class Digit:
+class DigitDefaults(object):
+    STREAMS: typing.Dict = {
+        # VGA resolution support 30 (default) and 15 fps
+        "VGA": {
+            "resolution": {"width": 640, "height": 480},
+            "fps": {"30fps": 30, "15fps": 15},
+        },
+        # QVGA resolution support 60 (default) and 30 fps
+        "QVGA": {
+            "resolution": {"width": 320, "height": 240},
+            "fps": {"60fps": 60, "30fps": 30},
+        },
+    }
+    LIGHTING_MIN: int = 0
+    LIGHTING_MAX: int = 15
+
+
+class Digit(DigitDefaults):
+    __LIGHTING_SCALER = 17
+
     def __init__(self, serial: str = None, name: str = None) -> None:
         """
         DIGIT Device class for a single DIGIT
@@ -50,21 +69,17 @@ class Digit:
         logger.info(
             f"{self.serial}:Setting stream defaults to QVGA, 60fps, maximum LED intensity."
         )
-        logger.debug(
-            f"Default stream to QVGA {DigitHandler.STREAMS['QVGA']['resolution']}"
-        )
-        self.set_resolution(DigitHandler.STREAMS["QVGA"])
-        logger.debug(
-            f"Default stream with {DigitHandler.STREAMS['QVGA']['fps']['60fps']} fps"
-        )
-        self.set_fps(DigitHandler.STREAMS["QVGA"]["fps"]["60fps"])
+        logger.debug(f"Default stream to QVGA {self.STREAMS['QVGA']['resolution']}")
+        self.set_resolution(self.STREAMS["QVGA"])
+        logger.debug(f"Default stream with {self.STREAMS['QVGA']['fps']['60fps']} fps")
+        self.set_fps(self.STREAMS["QVGA"]["fps"]["60fps"])
         logger.debug("Setting maximum LED illumination intensity")
         self.set_intensity(15)
 
     def set_resolution(self, resolution: typing.Dict) -> None:
         """
-        Sets stream resolution based on supported streams in DigitHandler.STREAMS
-        :param resolution: QVGA or VGA from DigitHandler.STREAMS
+        Sets stream resolution based on supported streams in Digit.STREAMS
+        :param resolution: QVGA or VGA from Digit.STREAMS
         :return: None
         """
         self.resolution = resolution["resolution"]
@@ -76,7 +91,7 @@ class Digit:
 
     def set_fps(self, fps: int) -> None:
         """
-        Sets the stream fps, only valid values from DigitHandler.STREAMS are accepted.
+        Sets the stream fps, only valid values from Digit.STREAMS are accepted.
         This should typically be called after the resolution is set as the stream fps defaults to the
         highest fps
         :param fps: Stream FPS
@@ -95,7 +110,7 @@ class Digit:
         """
         if self.revision < 200:
             # Deprecated version 1.01 (1b) is not supported
-            intensity = int(intensity / 17)
+            intensity = int(intensity / self.__LIGHTING_SCALER)
             logger.warn(
                 "You are using a previous version of the firmware "
                 "which does not support independent RGB control, update your DIGIT firmware."
@@ -197,13 +212,15 @@ class Digit:
             f"Name: {self.name} {self.dev_name}"
             f"\n\t- Model: {self.model}"
             f"\n\t- Revision: {self.revision}"
-            f"\n\t- CV Device?: {has_dev}"
             f"\n\t- Connected?: {is_connected}"
-            f"\nStream Info:"
-            f"\n\t- Resolution: {self.resolution['width']} x {self.resolution['height']}"
-            f"\n\t- FPS: {self.fps}"
-            f"\n\t- LED Intensity: {self.intensity}"
         )
+        if is_connected:
+            info_string += (
+                f"\nStream Info:"
+                f"\n\t- Resolution: {self.resolution['width']} x {self.resolution['height']}"
+                f"\n\t- FPS: {self.fps}"
+                f"\n\t- LED Intensity: {self.intensity}"
+            )
         return info_string
 
     def populate(self, serial: str) -> None:
@@ -220,3 +237,6 @@ class Digit:
         self.model = digit["model"]
         self.revision = int(digit["revision"])
         self.serial = digit["serial"]
+
+    def __repr__(self) -> str:
+        return f"Digit(serial={self.serial}, name={self.name})"
